@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GhostWall
   - BuildFloor
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -27,7 +28,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Obstacle
   - 
   - 
   - 

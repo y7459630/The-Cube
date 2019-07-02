@@ -73,4 +73,12 @@ public class LevelRecoder : MonoBehaviour{
             }
         }
     }
+
+    public void ToPlayMode(){
+        Global.GameMode = "PlayMode";
+    }
+
+    public void ToEditMode(){
+        Global.GameMode = "EditMode";
+    }
 }

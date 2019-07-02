@@ -19,7 +19,7 @@ public class BuildSetting : MonoBehaviour{
 
     private bool IsMoving;
     private bool FloorIsChecked;
-    private bool MoveAndBuild = true;
+    private bool MoveAndBuild = false;
     private int BuildType = 1; // Type 1 = 1*1*1
 
     private Ray ray;
@@ -111,7 +111,7 @@ public class BuildSetting : MonoBehaviour{
     // 拖曳式移動
     public void GrabMove(){
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if(Input.GetMouseButton(0) && Physics.Raycast(ray, out BuildInfo, 100, 1 << 16)){ // Layer16 = BuildFloor
+        if(Input.GetMouseButton(0) && Physics.Raycast(ray, out BuildInfo, 100, 1 << 16) && Global.GameMode == "EditMode"){ // Layer16 = BuildFloor
             if(CurrentFloor != BuildInfo.transform.gameObject || IsMoving){
                 IsMoving = true;
                 transform.position = BuildInfo.transform.position;

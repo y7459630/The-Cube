@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour {
 	public static GameObject CurrentHeart;
 	public static GameObject CurrentCam;
 	public static float CamView;
-	//public static bool IsCamRotating;
+	public static bool IsCamRotating;
 
 	private Vector3 CamToScreenHeartOrigin;
 	private Vector3 CamToScreenHeart;
@@ -46,7 +46,7 @@ public class CameraController : MonoBehaviour {
 		distance = Vector3.Distance (Cam.transform.position, ScreenHeart.transform.position);
 
 
-		if (!Global.IsPreRotating && !Global.IsRotating /*&& !MissionSetting.CamIsMoving && !MissionSetting.CamIsMovingBack*/) {
+		if (!Global.IsPreRotating && !Global.IsRotating) {
 			follow (25);
 			checkRightClick ();
 			if (Vector3.Distance (Cam.transform.position, RotateGoal.transform.position) > 0.1f) {
@@ -107,7 +107,7 @@ public class CameraController : MonoBehaviour {
 	}
 
 	public void zoom(){
-		if (!Global.StopTouch && !Global.IsPreRotating && !Global.IsRotating /*&& !MissionSetting.CamIsMoving && !MissionSetting.CamIsMovingBack*/) {
+		if (!Global.StopTouch && !Global.IsPreRotating && !Global.IsRotating) {
 			if (Input.GetAxis ("Mouse ScrollWheel") < 0 && Camera.main.fieldOfView < 25) {
 				CamView += 2f;
 				CamView = Mathf.Clamp (CamView, 5, 25);
