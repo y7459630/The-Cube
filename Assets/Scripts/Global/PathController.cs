@@ -229,7 +229,7 @@ public class PathController : MonoBehaviour {
 		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 		// FoolWalk Mode
-		if (Input.GetMouseButtonDown (0) && Physics.Raycast (ray, out hitinfo, 500, 1 << 16) && !Global.StopTouch && CameraController.IsCamRotating != true && !Global.IsRotating && !Global.IsPreRotating && Global.GameMode == "PlayMode") 
+		if (Input.GetMouseButtonDown (0) && Physics.Raycast (ray, out hitinfo, 500, 1 << 16) && hitinfo.transform.GetComponent<FloorInfo>().IsWalkable && !Global.StopTouch && CameraController.IsCamRotating != true && !Global.IsRotating && !Global.IsPreRotating && Global.GameMode == "PlayMode") 
 		{
 			// 切換成新點選的物件
 			Global.BeTouchedObj = hitinfo.collider.gameObject;
@@ -239,7 +239,7 @@ public class PathController : MonoBehaviour {
 		} 
 
 		// SmartWalk Mode
-		if (Input.GetMouseButtonDown (0) && Physics.Raycast (ray, out hitinfo, 500, 1 << 16) && !Global.IsPreRotating && !Global.StopTouch && !CameraController.IsCamRotating && Global.GameMode == "PlayMode") {
+		if (Input.GetMouseButtonDown (0) && Physics.Raycast (ray, out hitinfo, 500, 1 << 16) && hitinfo.transform.GetComponent<FloorInfo>().IsWalkable && !Global.IsPreRotating && !Global.StopTouch && !CameraController.IsCamRotating && Global.GameMode == "PlayMode") {
 			BeTouchedFloor = hitinfo.collider.gameObject;
 			Reset ();
 
@@ -276,7 +276,7 @@ public class PathController : MonoBehaviour {
 
 
 		NeighborFloor = null;
-		AllFloors = GameObject.FindGameObjectsWithTag("BuildFloor");
+		AllFloors = GameObject.FindGameObjectsWithTag("Walkable");
 		//Global.Player.transform.position = PlayerController.CurrentFloor.transform.position + fix;
 
 
@@ -456,7 +456,7 @@ public class PathController : MonoBehaviour {
 			Startfloor.Dad = NextHost.Dad;
 			Startfloor.ToDad = NextHost.ToDad;
 			if(SearchMode)
-			CheckNeighbor ();
+				CheckNeighbor ();
 		}
 	}
 

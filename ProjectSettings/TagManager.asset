@@ -7,6 +7,8 @@ TagManager:
   - GhostWall
   - BuildFloor
   - Obstacle
+  - Walkable
+  - EditFunction
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - PosProcess
   - Cube
   - 
   - 

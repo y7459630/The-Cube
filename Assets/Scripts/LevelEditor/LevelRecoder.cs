@@ -7,13 +7,13 @@ using System.IO;
 
 public class LevelRecoder : MonoBehaviour{
 
-    LevelStatus SaveStatus = new LevelStatus();
+    private GameObject CurrentCube;
+    private LevelStatus SaveStatus = new LevelStatus();
+    //List<GameObject> AllFloor = new List<GameObject>();
 
     public void SaveLevel(){
         //LevelStatus Status = new LevelStatus();
         RecordBuilding();
-        
-
         string SaveString = JsonUtility.ToJson(SaveStatus);
         StreamWriter File = new StreamWriter(Application.dataPath + "/Resources/LevelData.json");
         File.Write(SaveString);
@@ -25,7 +25,18 @@ public class LevelRecoder : MonoBehaviour{
         LevelStatus LoadStatus = LoadJsons.LoadJsonsFromFile();
         GameObject Temp;
         GameObject[] Floors;
-        Floors = GameObject.FindGameObjectsWithTag("BuildFloor");
+        Floors = Global.CurrentCube.GetComponent<CubeSetting>().AllFloors;
+        //Floors = GameObject.FindGameObjectsWithTag("BuildFloor")
+        
+        /*Floors = GameObject.FindGameObjectsWithTag("BuildFloor");
+        for(int i=0 ; i < Floors.Length ; i++){
+            AllFloor.Add(Floors[i]);
+        }
+
+        Floors = GameObject.FindGameObjectsWithTag("Walkable");
+        for(int i=0 ; i < Floors.Length ; i++){
+            AllFloor.Add(Floors[i]);
+        }*/
 
         // Clear Level
         for(int i = 0 ; i < Floors.Length ; i++){
@@ -60,7 +71,8 @@ public class LevelRecoder : MonoBehaviour{
     public void RecordBuilding(){
         GameObject[] Floors;
         SaveStatus.BuildDatas.Clear();
-        Floors = GameObject.FindGameObjectsWithTag("BuildFloor");
+        Floors = Global.CurrentCube.GetComponent<CubeSetting>().AllFloors;
+        //Floors = GameObject.FindGameObjectsWithTag("BuildFloor");
         for(int i = 0 ; i < Floors.Length ; i++){
             if(Floors[i].GetComponent<FloorInfo>().CheckBuilding() == true){
                 BuildData Data = new BuildData();
@@ -72,13 +84,5 @@ public class LevelRecoder : MonoBehaviour{
                 SaveStatus.BuildDatas.Add(Data);
             }
         }
-    }
-
-    public void ToPlayMode(){
-        Global.GameMode = "PlayMode";
-    }
-
-    public void ToEditMode(){
-        Global.GameMode = "EditMode";
     }
 }

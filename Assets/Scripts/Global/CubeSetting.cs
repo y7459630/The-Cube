@@ -8,27 +8,35 @@ public class CubeSetting : MonoBehaviour{
     public GameObject BuildFloor;
     public GameObject CubeCore;
     public GameObject FloorHome;
+    public GameObject[] AllFloors;
     public int CubeLayer;
 
     private int CubeBorder;
+    private int Count = 0;
 
     void Awake(){
         if(ID == 1)
             Global.CurrentCube = gameObject;
         CubeBorder = CubeLayer * CubeLayer;
+        AllFloors = new GameObject[CubeBorder*CubeBorder*6];
         CreateBuildFloor();
     }
 
     public void CreateBuildFloor(){
+        
         GameObject Temp;
 
         for(int i = 0 ; i < 6 ; i++){
             for(int DirL = 0 ; DirL < CubeBorder ; DirL++){
                 for(int DirR = 0 ; DirR < CubeBorder ; DirR++){
                     Temp = Instantiate(BuildFloor, new Vector3(BuildFloor.transform.position.x - DirL, BuildFloor.transform.position.y, BuildFloor.transform.position.z - DirR), Quaternion.identity);
-                    
+                    AllFloors[Count] = Temp;
+                    Count++;
+
                     if(i == 0){
                         Temp.name = "FloorA_" + DirL + DirR;
+                        Temp.GetComponent<FloorInfo>().IsWalkable = true;
+                        Temp.tag = "Walkable";
                     } else if(i == 1){
                         Temp.transform.RotateAround(CubeCore.transform.position, Vector3.forward, -90);
                         Temp.name = "FloorB_" + DirL + DirR;

@@ -66,7 +66,7 @@ public class CameraController : MonoBehaviour {
 			rotateSpeed /= 1.2f;
 		}
 
-		if (Input.GetMouseButton (1) && !Global.IsPreRotating && !Global.IsRotating)
+		if (Input.GetMouseButton (1) && !Global.IsPreRotating && !Global.IsRotating && !Global.StopTouch)
 			rotate ();
 		else if (Input.GetMouseButtonUp (1))
 			rotateSpeed *= 1.2f;
@@ -110,10 +110,10 @@ public class CameraController : MonoBehaviour {
 		if (!Global.StopTouch && !Global.IsPreRotating && !Global.IsRotating) {
 			if (Input.GetAxis ("Mouse ScrollWheel") < 0 && Camera.main.fieldOfView < 25) {
 				CamView += 2f;
-				CamView = Mathf.Clamp (CamView, 5, 25);
-			} else if (Input.GetAxis ("Mouse ScrollWheel") > 0 && Camera.main.fieldOfView > 5) {
+				CamView = Mathf.Clamp (CamView, 15, 25);
+			} else if (Input.GetAxis ("Mouse ScrollWheel") > 0 && Camera.main.fieldOfView > 15) {
 				CamView -= 2f;
-				CamView = Mathf.Clamp (CamView, 5, 25);
+				CamView = Mathf.Clamp (CamView, 15, 25);
 			}
 		}
 	}

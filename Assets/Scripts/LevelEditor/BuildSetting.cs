@@ -10,8 +10,7 @@ public class BuildSetting : MonoBehaviour{
     public GameObject Builder_Skin;
     
     // 建造者所在地板
-    [SerializeField]
-    private GameObject CurrentFloor;
+    public GameObject CurrentFloor;
 
     // 建築物欲使用地板
     [SerializeField]
@@ -19,7 +18,6 @@ public class BuildSetting : MonoBehaviour{
 
     private bool IsMoving;
     private bool FloorIsChecked;
-    private bool MoveAndBuild = false;
     private int BuildType = 1; // Type 1 = 1*1*1
 
     private Ray ray;
@@ -113,19 +111,21 @@ public class BuildSetting : MonoBehaviour{
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if(Input.GetMouseButton(0) && Physics.Raycast(ray, out BuildInfo, 100, 1 << 16) && Global.GameMode == "EditMode"){ // Layer16 = BuildFloor
             if(CurrentFloor != BuildInfo.transform.gameObject || IsMoving){
-                IsMoving = true;
-                transform.position = BuildInfo.transform.position;
-                transform.rotation = BuildInfo.transform.rotation;
-                transform.Translate(0, 0.5f, 0);
-                CurrentFloor = BuildInfo.transform.gameObject;
-                FloorIsChecked = false;
-                
+                if(EditorController.Status != "SetPlayerPos" || (EditorController.Status == "SetPlayerPos" && BuildInfo.transform.GetComponent<FloorInfo>().IsWalkable)){
+                    IsMoving = true;
+                    transform.position = BuildInfo.transform.position;
+                    transform.rotation = BuildInfo.transform.rotation;
+                    transform.Translate(0, 0.5f, 0);
+                    CurrentFloor = BuildInfo.transform.gameObject;
+                    FloorIsChecked = false;
+                    
 
-                IsMoving = false;
-                //CurrentFloor = BuildInfo.transform.gameObject;
+                    IsMoving = false;
+                    //CurrentFloor = BuildInfo.transform.gameObject;
+                }
             }
             
-            if(MoveAndBuild == true){
+            if(Global.GlobalObj.GetComponent<EditorController>().MoveAndAct == true){
                 if(Input.GetKey(KeyCode.LeftShift))
                     Invoke("Ruin", 0.05f);
                 else
@@ -157,7 +157,7 @@ public class BuildSetting : MonoBehaviour{
 
         if(CheckBuildPermission() == true){
             if(CurrentFloor.GetComponent<FloorInfo>().CheckBuilding() == false){
-                Temp = Instantiate(Building, transform.position, transform.rotation);
+                Temp = Instantiate(Building, transform.position + new Vector3(0, 0.05f, 0), transform.rotation); // 增加建造物高度以避免重疊
                 Temp.GetComponent<Renderer>().enabled = true;
                 Temp.transform.SetParent(CurrentFloor.transform);
                 Temp.name = Building.name;
@@ -181,12 +181,6 @@ public class BuildSetting : MonoBehaviour{
         }
     }
 
-    public void SwitchBuildMode(){
-        Text BuildMode = GameObject.Find("Text_BuildMode").GetComponent<Text>();
 
-        MoveAndBuild = !MoveAndBuild;
-        BuildMode.text = MoveAndBuild ? "拖曳式建造" : "按鈕式建造";
-
-    }
 
 }
