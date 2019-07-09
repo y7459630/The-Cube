@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PathController : MonoBehaviour {
 
+	public Animator PlayerAnim;
+
 	private Ray ray;
 	private Ray FourRay;
 	private Ray FourRay2;
@@ -76,7 +78,7 @@ public class PathController : MonoBehaviour {
 	private RaycastHit Ninfo;
 	float StunTime;
 
-	private float walkSpeed = 10;
+	private float walkSpeed = 2;
 	private bool isWalkingOrder;
 
 	void Start () {
@@ -114,7 +116,8 @@ public class PathController : MonoBehaviour {
 				} else {
 					//walkSpeed = Mathf.Clamp (walkSpeed - 0.1f, 2f, 3);
 				}
-					
+
+				PlayerAnim.SetBool("IsWalking", true);	
 				Global.Player.GetComponent<PlayerController> ().LockRotation = false;
 				Global.Player.transform.position += (FloorB.transform.position - FloorA.transform.position /*+ new Vector3 (0, 0.45f, 0)*/) * walkSpeed * Time.deltaTime;
 				//Global.Player.transform.position += (FloorB.transform.position - FloorA.transform.position + new Vector3 (0, 0.45f, 0)) * 3 * Time.deltaTime;
@@ -134,6 +137,7 @@ public class PathController : MonoBehaviour {
 
 				// 角色走到終點
 				if (PlayerController.CurrentFloor == BeTouchedFloor) {
+					PlayerAnim.SetBool("IsWalking", false);
 					PlayerController.CancelMoving (BeTouchedFloor.transform.position);
 					isWalkingOrder = false;
 					//walkSpeed = 0;

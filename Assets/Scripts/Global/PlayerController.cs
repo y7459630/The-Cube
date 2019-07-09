@@ -313,6 +313,7 @@ public class PlayerController : MonoBehaviour {
 		Global.Player.transform.position = NewPosition;
 		PathController.FollowPath = false;
 		Global.PlayerMove = false;
+		Global.GlobalObj.GetComponent<PathController>().PlayerAnim.SetBool("IsWalking", false);
 		//GameObject.Find ("GlobalScripts").GetComponent<PathController> ().Reset ();
 		GameObject[] AllFloors = GameObject.FindGameObjectsWithTag("BuildFloor");
 		foreach(GameObject color in AllFloors){

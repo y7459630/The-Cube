@@ -43,6 +43,8 @@ public class LevelRecoder : MonoBehaviour{
             if(Floors[i].GetComponent<FloorInfo>().CheckBuilding() == true){
                 for(int count = 0 ; count < Floors[i].transform.childCount ; count++){
                     DestroyImmediate(Floors[i].transform.GetChild(count).gameObject);
+                    //DestroyImmediate(Floors[i].GetComponent<FloorInfo>().Building);
+                    
                 }
 
                 if(Floors[i].transform.childCount == 0){

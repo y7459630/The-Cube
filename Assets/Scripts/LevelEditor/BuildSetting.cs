@@ -125,7 +125,7 @@ public class BuildSetting : MonoBehaviour{
                 }
             }
             
-            if(Global.GlobalObj.GetComponent<EditorController>().MoveAndAct == true){
+            if(Global.GlobalObj.GetComponent<EditorController>().EditTool == 1){
                 if(Input.GetKey(KeyCode.LeftShift))
                     Invoke("Ruin", 0.05f);
                 else
@@ -156,8 +156,9 @@ public class BuildSetting : MonoBehaviour{
         GameObject Temp;
 
         if(CheckBuildPermission() == true){
-            if(CurrentFloor.GetComponent<FloorInfo>().CheckBuilding() == false){
-                Temp = Instantiate(Building, transform.position + new Vector3(0, 0.05f, 0), transform.rotation); // 增加建造物高度以避免重疊
+            if(CurrentFloor != PlayerController.CurrentFloor && CurrentFloor.GetComponent<FloorInfo>().CheckBuilding() == false){
+                Temp = Instantiate(Building, transform.position, transform.rotation); 
+                Temp.transform.Translate(0, 0.35f, 0); // 增加建造物高度以避免重疊
                 Temp.GetComponent<Renderer>().enabled = true;
                 Temp.transform.SetParent(CurrentFloor.transform);
                 Temp.name = Building.name;

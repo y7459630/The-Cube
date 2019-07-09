@@ -62,12 +62,13 @@ public class CameraController : MonoBehaviour {
 	}
 
 	public void checkRightClick(){
-		if (Input.GetMouseButtonDown (1)){
-			rotateSpeed /= 1.2f;
-		}
 
-		if (Input.GetMouseButton (1) && !Global.IsPreRotating && !Global.IsRotating && !Global.StopTouch)
+		if (Input.GetMouseButton (1) && Global.IsCamCtrl && !Global.IsPreRotating && !Global.IsRotating && !Global.StopTouch){
+			if (Input.GetMouseButtonDown (1)){
+				rotateSpeed /= 1.2f;
+			}
 			rotate ();
+		}
 		else if (Input.GetMouseButtonUp (1))
 			rotateSpeed *= 1.2f;
 	}

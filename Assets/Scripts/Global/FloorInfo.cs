@@ -5,15 +5,22 @@ using UnityEngine;
 public class FloorInfo : MonoBehaviour{
     [SerializeField]
     private bool HasBuilding;
-    [SerializeField]
-    private GameObject Building;
+    public GameObject Building;
+
+	public char FloorID;
+	public string OriginUnderCube;
 
 	public bool IsWalkable;
     public bool Obstacle;
+	
 	private Ray Upray;
 	private RaycastHit Upinfo;
 	private RaycastHit Upinfo2;
+	private Ray DownRay;
+	private RaycastHit DownInfo;
+
 	public GameObject UpFloor;
+	public GameObject CurrentCube;
 
     void FixedUpdate(){
 		if(IsWalkable){
@@ -36,6 +43,15 @@ public class FloorInfo : MonoBehaviour{
 				//gameObject.GetComponent<Collider> ().enabled = true;
 				Obstacle = false;
 			}
+		}
+
+		//DownRay = new Ray(transform.position, transform.up * (-1));
+		DownRay.origin = transform.position + transform.up;
+		DownRay.direction = transform.up * (-1);
+		if(Physics.Raycast(DownRay, out DownInfo, 3, 1 << 9)){
+			CurrentCube = DownInfo.transform.gameObject;
+			if(OriginUnderCube.Equals(""))
+				OriginUnderCube = DownInfo.transform.gameObject.name;
 		}
 	}
 

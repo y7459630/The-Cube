@@ -15,6 +15,7 @@ public class Global : MonoBehaviour{
     public static bool IsPreRotating;
     public static bool IsRotating;
     public static bool IsPushing;
+    public static bool IsCamCtrl;
     public static bool PlayerMove;
 
     public static float StartTime;

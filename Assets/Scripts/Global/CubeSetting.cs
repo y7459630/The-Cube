@@ -34,24 +34,30 @@ public class CubeSetting : MonoBehaviour{
                     Count++;
 
                     if(i == 0){
-                        Temp.name = "FloorA_" + DirL + DirR;
+                        Temp.name = "V3A" + DirL + DirR;
+                        Temp.GetComponent<FloorInfo>().FloorID = 'A';
                         Temp.GetComponent<FloorInfo>().IsWalkable = true;
                         Temp.tag = "Walkable";
                     } else if(i == 1){
+                        Temp.GetComponent<FloorInfo>().FloorID = 'B';
                         Temp.transform.RotateAround(CubeCore.transform.position, Vector3.forward, -90);
-                        Temp.name = "FloorB_" + DirL + DirR;
+                        Temp.name = "V3B" + DirL + DirR;
                     } else if(i == 2){
+                        Temp.GetComponent<FloorInfo>().FloorID = 'C';
                         Temp.transform.RotateAround(CubeCore.transform.position, Vector3.right, 90);
-                        Temp.name = "FloorC_" + DirL + DirR;
+                        Temp.name = "V3C" + DirL + DirR;
                     } else if(i == 3){
+                        Temp.GetComponent<FloorInfo>().FloorID = 'D';
                         Temp.transform.RotateAround(CubeCore.transform.position, Vector3.forward, 90);
-                        Temp.name = "FloorD_" + DirL + DirR;
+                        Temp.name = "V3D" + DirL + DirR;
                     } else if(i == 4){
+                        Temp.GetComponent<FloorInfo>().FloorID = 'E';
                         Temp.transform.RotateAround(CubeCore.transform.position, Vector3.right, -90);
-                        Temp.name = "FloorE_" + DirL + DirR;
+                        Temp.name = "V3E" + DirL + DirR;
                     } else if(i == 5){
+                        Temp.GetComponent<FloorInfo>().FloorID = 'F';
                         Temp.transform.RotateAround(CubeCore.transform.position, Vector3.right, 180);
-                        Temp.name = "FloorF_" + DirL + DirR;
+                        Temp.name = "V3F" + DirL + DirR;
                     }
 
                     Temp.transform.SetParent(FloorHome.transform);

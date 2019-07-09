@@ -15,12 +15,14 @@ public class EditorController : MonoBehaviour{
 
     public Image FadeImage;
 
-    public bool MoveAndAct;
+    public int EditTool;
+    //public bool MoveAndAct;
 
     public static string Status;
 
     void Awake(){
         Vector3 TempPos;
+        EditTool = -1;
         Status = "SetPlayerPos";
         TempPos = Panel_Left.transform.position;
         Panel_Left.transform.position = new Vector3(-320, 540, 0);
@@ -58,16 +60,25 @@ public class EditorController : MonoBehaviour{
 
     public void ToEditMode(){
         GameObject[] EditButtons;
+        GameObject Floor;
 
         Global.GameMode = "EditMode";
         EditButtons = GameObject.FindGameObjectsWithTag("EditFunction");
         foreach(GameObject Btn in EditButtons){
             Btn.GetComponent<Button>().interactable = true;
         }
+        for(int i=0 ; i < Global.CurrentCube.GetComponent<CubeSetting>().AllFloors.Length ; i++){
+            Floor = Global.CurrentCube.GetComponent<CubeSetting>().AllFloors[i];
+            if(Floor.transform.childCount != 0){
+                Floor.GetComponent<FloorInfo>().Building.transform.SetParent(Floor.transform);
+            }
+        }
     }
 
     public void ToPlayMode(){
         GameObject[] EditButtons;
+        GameObject Floor;
+        GameObject Cube;
 
         Global.GameMode = "PlayMode";
         Global.Builder.transform.position = Vector3.zero;
@@ -75,12 +86,26 @@ public class EditorController : MonoBehaviour{
         foreach(GameObject Btn in EditButtons){
             Btn.GetComponent<Button>().interactable = false;
         }
+        for(int i=0 ; i < Global.CurrentCube.GetComponent<CubeSetting>().AllFloors.Length ; i++){
+            Floor = Global.CurrentCube.GetComponent<CubeSetting>().AllFloors[i];
+            if(Floor.transform.childCount != 0){
+                Cube = Floor.GetComponent<FloorInfo>().CurrentCube;
+                Floor.GetComponent<FloorInfo>().Building.transform.SetParent(Cube.transform);
+            }
+        }
     }
 
     public void SwitchBuildMode(){
+        EditTool = (EditTool + 1) % 2;
 
-        MoveAndAct = !MoveAndAct;
-        Text_BuildMode.text = MoveAndAct ? "拖曳式\n建造/刪除" : "按鈕式\n建造/刪除";
+        switch(EditTool){
+            case 0: Text_BuildMode.text = "按鈕式\n建造/刪除"; break;
+            case 1: Text_BuildMode.text = "拖曳式\n建造/刪除"; break;
+            //case 2: Text_BuildMode.text = "選取物件"; break;
+        }
+
+        //MoveAndAct = !MoveAndAct;
+        //Text_BuildMode.text = MoveAndAct ? "拖曳式\n建造/刪除" : "按鈕式\n建造/刪除";
 
     }
 
@@ -90,6 +115,7 @@ public class EditorController : MonoBehaviour{
         Btn_OK.gameObject.SetActive(false);
         Text_Message.gameObject.SetActive(false);
         Global.Builder.transform.position = Vector3.zero;
+        EditTool = 0;
         Status = "SetBuilding";
     }
 }
